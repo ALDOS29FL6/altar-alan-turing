@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Altar AR · Alan Turing</title>
+<script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.js"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#08070e;font-family:system-ui,Arial,sans-serif;color:white}#hud{position:fixed;z-index:30;left:12px;right:12px;top:12px;pointer-events:none}#header{background:#16101fdc;border:1px solid #e6b75a66;border-radius:15px;padding:12px 15px;box-shadow:0 4px 18px #0008}#header b{color:#ffd37d;font-size:17px}#status{display:block;font-size:12px;margin-top:4px;color:#f1e5d1}#bottom{position:fixed;z-index:30;bottom:calc(14px + env(safe-area-inset-bottom));left:12px;right:12px;display:flex;flex-wrap:wrap;justify-content:center;gap:8px}button,a.action{pointer-events:auto;border:1px solid #e6b75a77;border-radius:999px;background:#2d173ae8;color:white;padding:11px 15px;font-size:13px;font-weight:650;text-decoration:none;cursor:pointer}#panel{display:none;position:fixed;z-index:40;left:16px;right:16px;top:50%;transform:translateY(-50%);max-width:480px;margin:auto;background:#170f23f5;border:1px solid #e6b75a;border-radius:20px;padding:22px;box-shadow:0 8px 60px #000b;line-height:1.55}#panel h2{color:#ffd37d;margin-top:0}#panel p{font-size:14px}#panel button{margin-top:8px}#error{display:none;position:fixed;z-index:50;bottom:85px;left:16px;right:16px;background:#511b24ed;border-radius:12px;padding:14px;font-size:13px}a-scene{position:fixed!important;inset:0}video{object-fit:cover!important}
+</style>
+</head>
+<body>
+<div id="hud"><div id="header"><b>✦ Altar de Muertos · Alan Turing</b><span id="status">Permite el acceso a la cámara y apunta a cualquiera de tus tres marcadores impresos.</span></div></div>
+<div id="bottom"><button id="bio">¿Quién fue?</button><button id="ofrenda">La ofrenda</button></div>
+<div id="panel" role="dialog" aria-modal="true"><h2 id="panel-title"></h2><p id="panel-text"></p><button id="close">Cerrar</button></div><div id="error"></div>
+<a-scene embedded vr-mode-ui="enabled: false" renderer="logarithmicDepthBuffer: true; antialias: true; colorManagement: true" arjs="sourceType: webcam; detectionMode: mono; debugUIEnabled: false; trackingMethod: best;" >
+<a-marker type="pattern" url="marcador1.patt" id="marker1" smooth="true" smoothCount="8" smoothTolerance="0.01" smoothThreshold="4">
+<!-- Todo el altar se coloca sobre UN marcador Hiro, sin marcadores adicionales -->
+<a-entity position="0 0 0" scale="0.8 0.8 0.8">
+<!-- Plataforma escalonada de altar -->
+<a-box position="0 0.07 0" width="1.8" height="0.14" depth="1.35" color="#5d284a"></a-box>
+<a-box position="0 0.19 -0.17" width="1.55" height="0.14" depth="0.95" color="#8e4268"></a-box>
+<a-box position="0 0.31 -0.36" width="1.3" height="0.14" depth="0.57" color="#a85872"></a-box>
+<!-- Manteles bordados -->
+<a-box position="0 0.147 0.54" width="1.75" height="0.012" depth="0.14" color="#f3b73e"></a-box>
+<a-box position="0 0.267 0.27" width="1.5" height="0.012" depth="0.1" color="#f3b73e"></a-box>
+<!-- Marco conmemorativo: texto local, sin imagen externa que pueda fallar -->
+<a-box position="0 0.72 -0.52" width="0.75" height="0.82" depth="0.07" color="#a56b2f"></a-box>
+<a-box position="0 0.72 -0.47" width="0.64" height="0.7" depth="0.015" color="#251c35"></a-box>
+<a-text value="ALAN\nTURING" align="center" color="#ffe1a1" width="1.8" position="0 0.85 -0.45"></a-text>
+<a-text value="1912 - 1954" align="center" color="#ffffff" width="1.45" position="0 0.61 -0.45"></a-text>
+<a-text value="Pionero de la computacion" align="center" color="#ffd37d" width="1.32" position="0 0.49 -0.45"></a-text>
+<!-- Papel picado -->
+<a-entity position="0 1.26 -0.55"><a-box width="1.7" height="0.014" depth="0.014" color="#f2d49b"></a-box>
+<a-plane position="-0.63 -0.12 0" width="0.28" height="0.23" color="#e75c87" side="double"></a-plane><a-plane position="-0.31 -0.12 0" width="0.28" height="0.23" color="#f6b42e" side="double"></a-plane><a-plane position="0 -0.12 0" width="0.28" height="0.23" color="#42b6b0" side="double"></a-plane><a-plane position="0.31 -0.12 0" width="0.28" height="0.23" color="#9b6ad5" side="double"></a-plane><a-plane position="0.63 -0.12 0" width="0.28" height="0.23" color="#e75c87" side="double"></a-plane></a-entity>
+<!-- Velas -->
+<a-entity position="-0.62 0.28 0.16"><a-cylinder radius="0.065" height="0.22" color="#fff3d4"></a-cylinder><a-cone position="0 0.16 0" radius-bottom="0.04" height="0.13" color="#ffb526" animation="property: scale; from: 1 1 1; to: 0.85 1.25 0.85; dir: alternate; dur: 500; loop: true"></a-cone><a-light type="point" color="#ffb54d" intensity="0.5" distance="1.2" position="0 0.2 0"></a-light></a-entity>
+<a-entity position="0.62 0.28 0.16"><a-cylinder radius="0.065" height="0.22" color="#fff3d4"></a-cylinder><a-cone position="0 0.16 0" radius-bottom="0.04" height="0.13" color="#ffb526" animation="property: scale; from: 1 1 1; to: 0.85 1.25 0.85; dir: alternate; dur: 570; loop: true"></a-cone><a-light type="point" color="#ffb54d" intensity="0.5" distance="1.2" position="0 0.2 0"></a-light></a-entity>
+<!-- Pan de muerto -->
+<a-cylinder position="0 0.17 0.43" radius="0.23" height="0.04" color="#eee2d1"></a-cylinder>
+<a-sphere position="0 0.235 0.43" radius="0.15" scale="1 0.48 1" color="#c9823b"></a-sphere><a-sphere position="0 0.29 0.43" radius="0.038" color="#e6ae65"></a-sphere>
+<a-box position="0 0.282 0.43" width="0.25" height="0.023" depth="0.038" rotation="0 35 0" color="#e6ae65"></a-box><a-box position="0 0.282 0.43" width="0.25" height="0.023" depth="0.038" rotation="0 -35 0" color="#e6ae65"></a-box>
+<!-- Flores de cempasuchil -->
+<a-entity position="-0.37 0.19 0.42"><a-sphere radius="0.10" color="#f49c1c"></a-sphere><a-sphere position="-0.09 0.01 0.04" radius="0.07" color="#ffbf33"></a-sphere><a-sphere position="0.08 0.01 -0.04" radius="0.075" color="#f9b22d"></a-sphere></a-entity>
+<a-entity position="0.37 0.19 0.42"><a-sphere radius="0.10" color="#f49c1c"></a-sphere><a-sphere position="0.09 0.01 0.04" radius="0.07" color="#ffbf33"></a-sphere><a-sphere position="-0.08 0.01 -0.04" radius="0.075" color="#f9b22d"></a-sphere></a-entity>
+<!-- Manzana: referencia simbolica al conocimiento -->
+<a-sphere position="0.39 0.39 -0.12" radius="0.12" color="#b82235"></a-sphere><a-cylinder position="0.39 0.53 -0.12" radius="0.013" height="0.08" color="#4d351d"></a-cylinder><a-sphere position="0.46 0.53 -0.12" radius="0.05" scale="1.2 0.3 0.6" color="#3d8a4d"></a-sphere>
+<!-- Computadora retro -->
+<a-box position="-0.39 0.41 -0.13" width="0.29" height="0.22" depth="0.12" color="#ddd0b2"></a-box><a-box position="-0.39 0.42 -0.06" width="0.23" height="0.14" depth="0.01" color="#203d36"></a-box><a-text value="1010" align="center" position="-0.39 0.41 -0.048" width="0.5" color="#7af3b0"></a-text>
+</a-entity></a-marker>
+<a-marker type="pattern" url="marcador2.patt" id="marker2" smooth="true" smoothCount="8">
+<a-entity scale="0.9 0.9 0.9">
+<a-cylinder position="0 0.04 0" radius="0.75" height="0.08" color="#67344b"></a-cylinder>
+<a-cylinder position="0 0.10 0" radius="0.60" height="0.04" color="#f3b83e"></a-cylinder>
+<a-cylinder position="0 0.15 0" radius="0.32" height="0.035" color="#f1e1c6"></a-cylinder>
+<a-sphere position="0 0.25 0" radius="0.25" scale="1 0.48 1" color="#bb7438"></a-sphere>
+<a-sphere position="0 0.37 0" radius="0.055" color="#f6c47e"></a-sphere>
+<a-box position="0 0.35 0" width="0.43" height="0.035" depth="0.055" rotation="0 45 0" color="#eab779"></a-box>
+<a-box position="0 0.35 0" width="0.43" height="0.035" depth="0.055" rotation="0 -45 0" color="#eab779"></a-box>
+<a-sphere position="-0.47 0.18 0.22" radius="0.16" color="#f6a51a"></a-sphere><a-sphere position="0.47 0.18 0.22" radius="0.16" color="#ffbc24"></a-sphere>
+<a-sphere position="-0.42 0.17 -0.3" radius="0.13" color="#f4a21a"></a-sphere><a-sphere position="0.42 0.17 -0.3" radius="0.13" color="#f5b51d"></a-sphere>
+<a-text value="OFRENDA Y PAN DE MUERTO" position="0 0.62 -0.36" rotation="-35 0 0" align="center" width="2.6" color="#ffcf69" side="double"></a-text>
+</a-entity></a-marker>
+<a-marker type="pattern" url="marcador3.patt" id="marker3" smooth="true" smoothCount="8">
+<a-entity scale="1 1 1">
+<a-cylinder position="0 0.06 0" radius="0.42" height="0.12" color="#ad7445"></a-cylinder>
+<a-cylinder position="0 0.34 0" radius="0.19" height="0.5" color="#fff0d2"></a-cylinder>
+<a-cylinder position="0 0.61 0" radius="0.035" height="0.08" color="#423128"></a-cylinder>
+<a-cone position="0 0.77 0" radius-bottom="0.11" height="0.27" color="#ff9e20" animation="property: scale; from: 1 1 1; to: 0.76 1.18 0.76; dir: alternate; dur: 430; loop: true"></a-cone>
+<a-cone position="0 0.76 0" radius-bottom="0.045" height="0.16" color="#fff1a4" animation="property: scale; from: 1 1 1; to: 0.9 1.13 0.9; dir: alternate; dur: 530; loop: true"></a-cone>
+<a-light type="point" position="0 0.82 0" intensity="0.9" distance="2" color="#ffad48"></a-light>
+<a-text value="LUZ DE LA MEMORIA" position="0 0.13 0.5" rotation="-45 0 0" align="center" width="2.1" color="#ffcf75" side="double"></a-text>
+</a-entity></a-marker>
+<a-entity camera></a-entity>
+</a-scene>
+<script>
+const statusEl=document.getElementById('status'),panel=document.getElementById('panel');
+const nombres=['Retrato de Alan Turing','Ofrenda y pan de muerto','Vela digital'];
+let visibles=new Set();
+for(let i=1;i<=3;i++){
+ const m=document.getElementById('marker'+i);
+ m.addEventListener('markerFound',()=>{visibles.add(i);statusEl.textContent='✓ Detectado: '+nombres[i-1]+'.';});
+ m.addEventListener('markerLost',()=>{visibles.delete(i);statusEl.textContent=visibles.size?'✓ Otro marcador sigue visible.':'Busca uno de los tres marcadores, con buena iluminación.';});
+}
+function show(title,content){document.getElementById('panel-title').textContent=title;document.getElementById('panel-text').textContent=content;panel.style.display='block'}
+document.getElementById('bio').onclick=()=>show('Alan Turing (1912–1954)','Matemático británico y pionero de la informática. Sus ideas ayudaron a sentar las bases de la computación moderna. Durante la Segunda Guerra Mundial contribuyó al criptoanálisis de Enigma.');
+document.getElementById('ofrenda').onclick=()=>show('Elementos del altar','El cempasúchil representa el camino y el recuerdo; las velas, la luz; el pan de muerto, la tradición. La computadora y la manzana evocan simbólicamente el legado científico de Alan Turing.');
+document.getElementById('close').onclick=()=>panel.style.display='none';
+function err(message){const e=document.getElementById('error');e.textContent=message;e.style.display='block'}
+if(!window.isSecureContext)err('La cámara requiere HTTPS o localhost. Sube este HTML a un sitio HTTPS; abrirlo como archivo local puede impedir el acceso.');
+window.addEventListener('error',e=>{if(/camera|permission|media|webcam/i.test(e.message||''))err('No se pudo iniciar la cámara. Revisa permisos del navegador, HTTPS y que ninguna otra aplicación la esté usando.')});
+navigator.mediaDevices?.getUserMedia && navigator.permissions?.query({name:'camera'}).then(p=>{if(p.state==='denied')err('La cámara está bloqueada. Habilítala en los permisos del sitio en tu navegador.')}).catch(()=>{});
+</script>
+</body></html>

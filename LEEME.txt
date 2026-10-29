@@ -1,0 +1,9 @@
+ALTAR AR ALAN TURING
+
+1. Publica index.html y los tres archivos .patt en la MISMA carpeta de un sitio HTTPS.
+2. Abre la URL desde Chrome o Safari en tu celular y acepta la cámara.
+3. Imprime las tres páginas del PDF original al 100%, sin recortar los cuadros.
+4. Marcador 1: altar y Alan Turing. Marcador 2: pan y flores. Marcador 3: vela.
+5. No abras index.html directamente desde archivos locales: la cámara y los patrones pueden fallar.
+
+IMPORTANTE: los .patt se generaron de los dibujos de tu PDF; no se ha verificado su reconocimiento con una cámara real. Si un marcador no se detecta, habrá que calibrar su patrón o reimprimirlo.
